@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#1a1b26"/>
+  <g transform="translate(4 4)" fill="none" stroke="#f7768e" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Lucide "skull" icon paths (v1.24) -->
+    <path d="m12.5 17-.5-1-.5 1h1z"/>
+    <path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"/>
+    <circle cx="15" cy="12" r="1.25" fill="#f7768e" stroke="none"/>
+    <circle cx="9" cy="12" r="1.25" fill="#f7768e" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>DOOM MASTER</title>
+  <style>
+    html,
+    body,
+    #root {
+      margin: 0;
+      height: 100%;
+      min-height: 100%;
+      min-height: 100dvh;
+      background: #1a1b26;
+      color: #c0caf5;
+      font-family: system-ui, Segoe UI, sans-serif;
+    }
+
+    #boot {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: #1a1b26;
+      z-index: 9999;
+      transition: opacity .18s ease;
+    }
+
+    #boot.done {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #boot .skull {
+      width: 42px;
+      height: 42px;
+      color: #f7768e;
+    }
+
+    #boot .title {
+      font-size: 13px;
+      letter-spacing: .22em;
+      font-weight: 700;
+      color: #f7768e;
+    }
+
+    #boot .bar {
+      width: 120px;
+      height: 3px;
+      border-radius: 2px;
+      background: #2f334d;
+      overflow: hidden;
+    }
+
+    #boot .bar>i {
+      display: block;
+      height: 100%;
+      width: 40%;
+      background: #7aa2f7;
+      animation: slide 0.9s ease-in-out infinite;
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(300%);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="boot">
+    <svg class="skull" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round">
+      <circle cx="9" cy="12" r="1" />
+      <circle cx="15" cy="12" r="1" />
+      <path d="M8 20v2h8v-2" />
+      <path d="m12.5 17-.5-1-.5 1" />
+      <path d="M16 20a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20" />
+    </svg>
+    <div class="title">DOOM MASTER</div>
+    <div class="bar"><i></i></div>
+  </div>
+  <div id="root"></div>
+  <script>
+    // Recover from older cache-first SW builds that served dead hashed JS (infinite splash).
+    (function () {
+      if (!('serviceWorker' in navigator)) return
+      var FLAG = 'dm-sw-purge-v3'
+      if (sessionStorage.getItem(FLAG)) return
+      var hadController = !!navigator.serviceWorker.controller
+      Promise.all([
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          return Promise.all(regs.map(function (r) { return r.unregister() }))
+        }),
+        window.caches && caches.keys
+          ? caches.keys().then(function (keys) {
+            return Promise.all(keys.filter(function (k) {
+              return k.indexOf('doom-master-') === 0 && k !== 'doom-master-v3'
+            }).map(function (k) { return caches.delete(k) }))
+          })
+          : Promise.resolve()
+      ]).then(function () {
+        if (hadController) {
+          sessionStorage.setItem(FLAG, '1')
+          location.reload()
+        }
+      }).catch(function () { })
+    })()
+  </script>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
