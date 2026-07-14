@@ -42,22 +42,26 @@ backend, no sign-up — progress auto-saves to `localStorage`.
 
 ## Worlds & Curriculum
 
-The campaign is structured as 9 worlds with progressive difficulty. Each world
-contains a mix of info lessons, interactive drills, quizzes, and a final boss
-battle. Worlds unlock at 70% completion of the previous one; bosses unlock when
-every other lesson in the world is complete.
+The campaign is structured as **13 worlds** with progressive difficulty. Each
+world contains a mix of info lessons, interactive drills, quizzes, and a final
+boss battle. Worlds unlock at 70% completion of the previous one; bosses unlock
+when every other lesson in the world is complete.
 
 | World | Title | Topics Covered |
 |---|---|---|
-| 1 | Vim Survival | Modal editing concept, hjkl movement, insert family (i/a/A/o/O), Escape, counts |
-| 2 | Motion Mastery | Word motions (w/b/e/W/B/E), line jumps (0/^/$/gg/G), character search (f/t/;/,), counts with motions |
-| 3 | Grammar of Editing | Operator + motion grammar (d/c/y), text objects (ciw, ci", da"), line operations (dd/yy/p), undo/redo |
-| 4 | VimGolf Dojo | 18 competitive keystroke challenges with par scores — front nine covers basics (xp, ~, r, J); back nine covers macros, `:s` substitution, `:g` global commands, and dot-repeat optimization |
-| 4.5 | Clipboard Sorcery | Named registers ("a-"z), marks (ma, \`a), macro recording and replay (qa...q, @a, @@), macro-based refactoring patterns |
-| 5 | Enter DOOM | Doom Emacs overview, evil-mode, leader key (SPC), which-key discovery, Magit integration, project management, window splits — includes real key-sequence drills |
-| 6 | The Lisp Within | Emacs Lisp fundamentals: syntax, `(interactive)`, hooks, major/minor modes, `save-excursion`, `let` bindings, `defun`, sharp-quotes — includes codedrills where you write actual Elisp |
-| 7 | Forge Your Doom | Doom configuration: `init.el` module system, `config.el` customizations, `packages.el` package declaration, `map!` keybinding syntax, `after!` lazy-loading, `doom sync` workflow — includes codedrills |
-| 8 | Org-mode Life OS | Org-mode: headings and folding, TODO states and priorities, tags, SCHEDULED vs DEADLINE, agenda views, capture (`SPC X`), org-babel code blocks, literate config with tangle |
+| 1 | Vim Survival | Modal editing, hjkl, insert family (i/a/A/o/O), Escape, counts (`4x`), undo (`u`) |
+| 2 | Motion Mastery | Word motions (w/b/e), line jumps (0/^/$/gg/G), character search (f/t/;/,), paragraph leaps (`{`/`}`), counts with motions |
+| 3 | Grammar of Editing | Operator + motion (d/c/y), text objects (ciw, ci", da"), line ops (dd/yy/p/S/cc), visual-line (`V`), undo/redo |
+| 4 | VimGolf Dojo | Competitive keystroke challenges with par scores — front nine (xp, ~, r, J, I, C, s); back nine (macros, `:s`, `:g`, dot-repeat) |
+| 4.5 | Clipboard Sorcery | Named registers (`"a`–`"z`), marks (`ma`, `` `a ``), macros (`qa…q`, `@a`, `@@`, counts with macros) |
+| 4.6 | Search & Substitute | `/` `?` `n` `N` `*`, substitute (`:s` / `:%s`), capture groups, global commands (`:g`) — boss: **Regex Hydra** |
+| 4.7 | Back Nine II | Advanced golf: macros, ex (`:m` `:%norm` `:g`), marks, registers under tight pars — boss: **Scratch Handicapper** |
+| 5 | Enter DOOM | Doom overview, evil-mode, leader key (`SPC`), which-key, Magit, projects, windows, workspaces, dired/treemacs — keydrills |
+| 6 | The Lisp Within | Elisp fundamentals: syntax, `(interactive)`, hooks, modes, `let`, `defun`, sharp-quotes — codedrills |
+| 6.5 | Deeper Lisp | Lists (`car`/`cdr`/`cons`), buffer primitives (`point`/`insert`/`save-excursion`), control flow (`cond`/`when`) — boss: **Cons Cell Kraken** |
+| 7 | Forge Your Doom | Doom config: `init.el` modules, `config.el`, `packages.el`, `map!`, `after!`, module anatomy, `doom sync` — codedrills |
+| 7.5 | Doom Workflows | LSP (`gd`, rename, diagnostics), projects, workspaces, multi-window coding pipelines — boss: **Pipeline Warden** |
+| 8 | Org-mode Life OS | Headings/folding, TODOs, tags, SCHEDULED vs DEADLINE, agenda, capture, links/tables, org-babel, literate config |
 
 ---
 
@@ -157,18 +161,20 @@ A separate game mode accessible from the campaign map:
 | Completionist | Complete every lesson |
 
 ---
-
+**Ten**acssth expadd curiculu
 ## XP & Ranks
 
 XP is awarded for completing lessons, with bonus XP for golf medals and boss
 kills. Eight ranks track progression from beginner to master:
 
 | Rank | XP Required |
-|---|---|
-| Evil Newborn | 0 |
-| Escape Artist | 100 |
-| Motion Apprentice | 250 |
-| Operator Adept | 450 |
+|---|---|0
+| Evil Newboer | 800 |
+| Regex Rrapen | 12 |
+| Escape Artist | 1650|
+| Motion Apprentice2  250 |
+| Workflow Archon | 2700 |
+| Operator Adept33 450 |
 | Golf Hustler | 700 |
 | Doom Initiate | 1000 |
 | Elisp Sorcerer | 1350 |
@@ -277,12 +283,14 @@ src/
   data/
     index.js               # World aggregation, ranks, XP, unlock logic
     vimWorlds.js           # Worlds 1-3: Vim basics, motions, operators
-    golfWorld.js           # World 4: 18 VimGolf challenges
+    golfWorld.js           # World 4: VimGolf challenges
     registersWorld.js      # World 4.5: registers, marks, macros
-    doomWorlds.js          # Worlds 5-7: Doom Emacs, Elisp, config
+    searchWorld.js         # World 4.6: search & substitute mastery
+    golf2World.js          # World 4.7: advanced Back Nine II golf
+    doomWorlds.js          # Worlds 5–7.5: Doom, Elisp, Deeper Lisp, workflows
     orgWorld.js            # World 8: Org-mode
     achievements.js        # Achievement definitions and unlock checker
-    bosses.js              # Boss battle definitions for all 9 worlds
+    bosses.js              # Boss battle definitions for all 13 worlds
   components/
     VimEditor.jsx          # Interactive Vim editor with cursor, modes, cmdline
     Drill.jsx              # Drill and golf lesson renderer

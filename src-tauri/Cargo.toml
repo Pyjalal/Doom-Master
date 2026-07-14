@@ -1,6 +1,6 @@
 [package]
 name = "app"
-version = "1.0.0"
+version = "1.1.0"
 description = "DOOM MASTER — hands-on Vim & Emacs training"
 authors = ["Pyjalal"]
 license = "GPL-3.0-or-later"

@@ -64,6 +64,18 @@ The drill checks both the text AND that your cursor ends on the X.`,
       },
     },
     {
+      id: 'w45l9', type: 'drill', title: 'Marks as weapons: delete to mark',
+      body: `Marks aren't just bookmarks — they're **operator targets**. Delete the three
+CUT lines in one strike: set mark **a** on the first (\`ma\`), move to the last
+(\`jj\`), then \`d'a\` deletes every line from the mark through the cursor.`,
+      drill: {
+        start: 'keep top\ncut 1\ncut 2\ncut 3\nkeep bottom',
+        startCursor: { row: 1, col: 0 },
+        target: 'keep top\nkeep bottom',
+        par: 7, hint: "ma jj d'a — 2+2+3 = 7 keys. (3dd is 3 — but now you know the mark trick for when the range is 300 lines.)",
+      },
+    },
+    {
       id: 'w45l5', type: 'info', title: 'Macros: record yourself, then multiply',
       body: `The ultimate repetition weapon. A **macro** records your keystrokes into a register
 and replays them on demand:
@@ -107,6 +119,28 @@ pattern you'll use weekly (turning lines into a JSON array).`,
         start: 'ares\nzeus\nhera\napollo',
         target: '"ares",\n"zeus",\n"hera",\n"apollo",',
         par: 17, hint: 'qa I" Esc A", Esc j q 3@a = q a I " Esc A " , Esc j q 3 @ a = 14 … buffer to 17',
+      },
+    },
+    {
+      id: 'w45l10', type: 'drill', title: 'Register heist',
+      body: `Cut the secret into register **b** with \`"bd$\` (delete to end of line into b),
+then jump to the empty line and paste with \`"bp\`. The junk delete in between
+must not steal your stash.`,
+      drill: {
+        start: 'SECRET: gold\njunk\n\nPASTE HERE: ',
+        startCursor: { row: 0, col: 8 },
+        target: 'SECRET: \njunk\n\nPASTE HERE: gold',
+        par: 10, hint: '"bd$ j j "bp — stash in b, wander, paste b',
+      },
+    },
+    {
+      id: 'w45l11', type: 'drill', title: 'Macro with a count',
+      body: `Bullet all **eight** lines. Record once (\`qa I- ␣ Esc j q\`), then \`7@a\`.
+Bigger files make counts feel like magic.`,
+      drill: {
+        start: 'a\nb\nc\nd\ne\nf\ng\nh',
+        target: '- a\n- b\n- c\n- d\n- e\n- f\n- g\n- h',
+        par: 14, hint: 'qa I- space Esc j q 7@a',
       },
     },
     {

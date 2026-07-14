@@ -1,11 +1,21 @@
 import { vimWorlds } from './vimWorlds'
 import { golfWorld } from './golfWorld'
 import { registersWorld } from './registersWorld'
+import { searchWorld } from './searchWorld'
+import { golf2World } from './golf2World'
 import { doomWorlds } from './doomWorlds'
 import { orgWorld } from './orgWorld'
 import { BOSSES } from './bosses'
 
-const baseWorlds = [...vimWorlds, golfWorld, registersWorld, ...doomWorlds, orgWorld]
+const baseWorlds = [
+  ...vimWorlds,
+  golfWorld,
+  registersWorld,
+  searchWorld,
+  golf2World,
+  ...doomWorlds,
+  orgWorld,
+]
 
 // Append each world's boss battle as its final lesson.
 export const worlds = baseWorlds.map((w) => (
@@ -32,11 +42,13 @@ export const RANKS = [
   { xp: 0, name: 'Evil Newborn', icon: 'egg' },
   { xp: 100, name: 'Escape Artist', icon: 'bird' },
   { xp: 250, name: 'Motion Apprentice', icon: 'footprints' },
-  { xp: 450, name: 'Operator Adept', icon: 'swords' },
-  { xp: 700, name: 'Golf Hustler', icon: 'golf' },
-  { xp: 1000, name: 'Doom Initiate', icon: 'flame' },
-  { xp: 1350, name: 'Elisp Sorcerer', icon: 'wand' },
-  { xp: 1700, name: 'DOOM MASTER', icon: 'crown' },
+  { xp: 500, name: 'Operator Adept', icon: 'swords' },
+  { xp: 800, name: 'Golf Hustler', icon: 'golf' },
+  { xp: 1200, name: 'Regex Reaper', icon: 'search' },
+  { xp: 1650, name: 'Doom Initiate', icon: 'flame' },
+  { xp: 2150, name: 'Elisp Sorcerer', icon: 'wand' },
+  { xp: 2700, name: 'Workflow Archon', icon: 'map' },
+  { xp: 3300, name: 'DOOM MASTER', icon: 'crown' },
 ]
 
 export function rankFor(xp) {

@@ -89,6 +89,21 @@ Each hole below shows a **par**. Beat or match it for gold. Reset costs nothing 
       },
     },
     {
+      id: 'w4l28', type: 'golf', title: 'Hole 27 · Prefix power',
+      body: 'Add `// ` at the start of the line. `I` jumps to first non-blank in insert mode — perfect for prefixes.',
+      drill: { start: 'important note', target: '// important note', par: 5, hint: 'I// ␣ Escape — or I// space Esc' },
+    },
+    {
+      id: 'w4l29', type: 'golf', title: 'Hole 28 · Change to end',
+      body: 'Replace everything from `old` onward with `new`. Cursor starts mid-line. `C` = change to end of line (delete + insert).',
+      drill: { start: 'keep old junk here', startCursor: { row: 0, col: 5 }, target: 'keep new', requireNormal: true, par: 6, hint: 'C new Escape' },
+    },
+    {
+      id: 'w4l30', type: 'golf', title: 'Hole 29 · Substitute one',
+      body: '`s` deletes the char under the cursor and enters insert. Fix `bax` → `bar` in one motion.',
+      drill: { start: 'bax', startCursor: { row: 0, col: 2 }, target: 'bar', requireNormal: true, par: 3, hint: 's r Escape' },
+    },
+    {
       id: 'w4l13i', type: 'info', title: 'The Back Nine: new weapons unlocked',
       body: `From here on, the simulator supports the full pro toolkit — use it:
 
@@ -169,6 +184,16 @@ macros and \`:%s\` win everything bigger. Choose your weapon by counting first.`
         par: 13,
         hint: 'j^ciwlet⎋ jdd = 10+3 = 13. Or :3d⏎ + :s/var/let/⏎… count it yourself, golfer.',
       },
+    },
+    {
+      id: 'w4l26', type: 'golf', title: 'Hole 25 · Double vision',
+      body: 'A stutter: `the the` — delete the duplicate word. Text objects work from anywhere on the word, and `aw` grabs its trailing space too.',
+      drill: { start: 'the the end is near', target: 'the end is near', par: 3, hint: 'daw — delete a word, space included. 3 keys.' },
+    },
+    {
+      id: 'w4l27', type: 'golf', title: 'Hole 26 · Range purge',
+      body: 'Delete lines 2 through 4 in one command. Ex ranges take two line numbers: `:2,4d` means "delete lines 2 to 4".',
+      drill: { start: 'keep\ntrash a\ntrash b\ntrash c\nkeep too', target: 'keep\nkeep too', par: 6, hint: ':2,4d⏎ = 6 keys. Normal mode j3dd = 4! Count both routes before you swing.' },
     },
     {
       id: 'w4l13', type: 'quiz', title: 'Pro golfer theory (real Vim powers)',

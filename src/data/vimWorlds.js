@@ -85,6 +85,31 @@ The fastest way: \`A\` jumps to end-of-line in insert mode. Then type, then Esca
         drill: { start: '(vim is grea', target: '(vim is great)', requireNormal: true, par: 5, hint: 'A t ) Escape — 4 keystrokes of genius' },
       },
       {
+        id: 'w1l9', type: 'drill', title: 'Open sesame',
+        body: `Add a second line that says \`world\` under \`hello\`.
+\`o\` opens a blank line *below* the cursor and drops you into INSERT.`,
+        drill: { start: 'hello', target: 'hello\nworld', requireNormal: true, par: 8, hint: 'o world Escape' },
+      },
+      {
+        id: 'w1l10', type: 'drill', title: 'Counts kill',
+        body: `Delete the four \`z\` characters in one strike. Counts work on \`x\` too: \`4x\`.
+Cursor starts on the first z.`,
+        drill: { start: 'emzzzzacs', startCursor: { row: 0, col: 2 }, target: 'emacs', par: 2, hint: '4x — count + delete' },
+      },
+      {
+        id: 'w1l11', type: 'info', title: 'Undo is your shield',
+        body: `Mistakes are free in Vim. In NORMAL mode:
+
+- \`u\` — **u**ndo the last change
+- In real Vim: \`Ctrl-r\` redoes; this simulator keeps undo simple.
+
+Unlike most editors, Vim's undo is *change-based* — each operator (\`dd\`, \`ciw\`,
+an insert session from \`i\`…\`Esc\`) is one undo unit. So \`u\` undoes the whole
+\`ciw\` rewrite, not one character at a time.
+
+**Habit:** smash Escape, then \`u\`, when something looks wrong. Never panic-type.`,
+      },
+      {
         id: 'w1l8', type: 'quiz', title: 'Survival check',
         quiz: [
           { q: 'You typed text and now random letters are doing weird things. What happened?', choices: ['Vim crashed', "You're in NORMAL mode — keys are commands", 'Caps lock is on', 'The file is read-only'], answer: 1, explain: 'Keys act as commands in NORMAL mode. Press i to type text.' },
@@ -161,6 +186,47 @@ they pair beautifully with operators: \`dt)\` = *delete till closing paren*.`,
         id: 'w2l7', type: 'drill', title: 'Semicolon chains',
         body: `Land on the THIRD \`o\` in the line. \`fo\` finds the first, then \`;\` repeats the find.`,
         drill: { start: 'one to move onto obviously', cursorGoal: { row: 0, col: 12 }, par: 3, hint: '3fo — count works on finds too! (fo;; also works, 4 keys)' },
+      },
+      {
+        id: 'w2l9', type: 'info', title: 'Paragraph leaps: { and }',
+        body: `For jumping between *blocks* of text, character and word motions are too small:
+
+- \`}\` — jump to the next **blank line** (end of paragraph)
+- \`{\` — jump to the previous blank line (start of paragraph)
+
+Code is full of blank-line-separated blocks — functions, imports, config sections —
+so \`{\` and \`}\` fly between them. Counts work too: \`3}\` skips three blocks.
+
+They also pair with operators: \`d}\` deletes to the end of the paragraph,
+\`y{\` yanks back to its start. A whole function gone in two keys.`,
+      },
+      {
+        id: 'w2l10', type: 'drill', title: 'Block hopper',
+        body: `Three text blocks separated by blank lines. Land the cursor on the \`X\`
+in the last block using paragraph jumps: \`}}\` gets you near it fast.`,
+        drill: {
+          start: 'alpha one\nalpha two\n\nbeta one\nbeta two\n\nfind the X',
+          cursorGoal: { row: 6, col: 9 }, par: 4, hint: '}}j$ — two paragraph jumps, down, end of line',
+        },
+      },
+      {
+        id: 'w2l11', type: 'drill', title: 'Home and end',
+        body: `The line is indented. Land on the first *non-blank* character (the \`c\` of \`code\`)
+using \`^\` — not \`0\`, which would sit on the spaces.`,
+        drill: {
+          start: '    code starts here',
+          startCursor: { row: 0, col: 15 },
+          cursorGoal: { row: 0, col: 4 }, par: 1, hint: '^ — first non-blank',
+        },
+      },
+      {
+        id: 'w2l12', type: 'drill', title: 'Word-end hops',
+        body: `Land on the final letter of the third word (\`d\` in \`word\`) using \`e\` motions.
+\`e\` jumps to the **e**nd of the current/next word.`,
+        drill: {
+          start: 'one two word four',
+          cursorGoal: { row: 0, col: 12 }, par: 3, hint: '3e — end of third word',
+        },
       },
       {
         id: 'w2l8', type: 'quiz', title: 'Motion theory exam',
@@ -241,6 +307,12 @@ Cursor is already inside the quotes. \`ci"\` deletes everything inside and enter
         drill: { start: 'msg = "TODO: fix me"', startCursor: { row: 0, col: 9 }, target: 'msg = "done"', requireNormal: true, par: 9, hint: 'ci" done Escape' },
       },
       {
+        id: 'w3l11', type: 'drill', title: 'Empty the parens',
+        body: `Clear out the arguments entirely: \`calc(1 + 2 + 3)\` → \`calc()\`.
+Cursor starts inside the parens — \`di(\` deletes everything between them.`,
+        drill: { start: 'sum = calc(1 + 2 + 3)', startCursor: { row: 0, col: 15 }, target: 'sum = calc()', par: 3, hint: 'di( — three keys, done' },
+      },
+      {
         id: 'w3l7', type: 'drill', title: 'Line surgery: dd and p',
         body: `The lines are in the wrong order. Fix them: cut line 2 (\`dd\`) and paste it below line 3 (\`p\`).
 \`dd\` cuts a whole line; \`p\` pastes it *below* the cursor line.`,
@@ -267,6 +339,36 @@ More power tools:
 
 Visual mode is honest but often *costs more keystrokes* than operator+motion.
 Golfers reach for \`v\` last.`,
+      },
+      {
+        id: 'w3l12', type: 'drill', title: 'One-character fix with r',
+        body: `A single typo: \`hallo\` should be \`hello\`. Snipe to the \`a\` with \`fa\`,
+then \`re\` replaces it — no insert mode, no Escape needed.`,
+        drill: { start: 'print("hallo world")', target: 'print("hello world")', par: 4, hint: 'fa re — find, replace. 4 keys.' },
+      },
+      {
+        id: 'w3l13', type: 'drill', title: 'The join',
+        body: `Someone broke this statement across two lines. \`J\` joins the line below
+onto the current one with a single space (and eats the leading indentation).`,
+        drill: { start: 'const total =\n  1 + 2', target: 'const total = 1 + 2', par: 1, hint: 'J — one key' },
+      },
+      {
+        id: 'w3l14', type: 'drill', title: 'Eat the quotes too',
+        body: `Remove the quoted string *and* its quotes: \`name = "delete me"\` → \`name = \`.
+\`da"\` deletes **a**round the quotes (including them). \`di"\` would leave empty quotes.`,
+        drill: { start: 'name = "delete me"', startCursor: { row: 0, col: 10 }, target: 'name = ', par: 3, hint: 'da" — delete around quotes' },
+      },
+      {
+        id: 'w3l15', type: 'drill', title: 'Total rewrite',
+        body: `Replace the entire line with \`fixed\`. \`S\` (or \`cc\`) clears the line and enters INSERT.
+Type the new text, Escape.`,
+        drill: { start: 'this whole line is wrong', target: 'fixed', requireNormal: true, par: 8, hint: 'S fixed Escape' },
+      },
+      {
+        id: 'w3l16', type: 'drill', title: 'Visual line strike',
+        body: `Delete the middle two lines using visual-line mode: \`V\` selects whole lines,
+extend with \`j\`, then \`d\` deletes the selection.`,
+        drill: { start: 'keep\ncut me\ncut me too\nkeep', startCursor: { row: 1, col: 0 }, target: 'keep\nkeep', par: 3, hint: 'V j d' },
       },
       {
         id: 'w3l10', type: 'quiz', title: 'Grammar final',

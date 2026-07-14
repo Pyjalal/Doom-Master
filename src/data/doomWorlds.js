@@ -1,5 +1,5 @@
-// Worlds 5–7: Doom Emacs, Emacs Lisp, and extending Doom.
-// New lesson type: keydrill — the player must physically type the key sequence.
+// Worlds 5–7.5: Doom Emacs, Emacs Lisp, deeper Lisp, config, and workflows.
+// Lesson types: info | quiz | keydrill | codedrill
 
 export const doomWorlds = [
   {
@@ -71,6 +71,18 @@ The menu teaches you as you work.`,
         ],
       },
       {
+        id: 'w5l8', type: 'keydrill', title: 'Muscle memory: the help system',
+        body: `Emacs is self-documenting — these bindings ARE the manual. Drill them until asking
+Emacs feels faster than googling.`,
+        drills: [
+          { prompt: 'Describe a function (docs + source)', keys: ['SPC', 'h', 'f'] },
+          { prompt: 'Describe a variable', keys: ['SPC', 'h', 'v'] },
+          { prompt: 'What does this key do?', keys: ['SPC', 'h', 'k'] },
+          { prompt: 'Run any command by name (M-x)', keys: ['SPC', ':'] },
+          { prompt: 'Search text in the current buffer', keys: ['SPC', 's', 's'] },
+        ],
+      },
+      {
         id: 'w5l5', type: 'info', title: 'Magit: git as a mind-reading UI',
         body: `Magit is the #1 reason people who hate Emacs use Emacs. From \`SPC g g\`:
 
@@ -96,6 +108,32 @@ feels like carving stone tablets.`,
 - **\`zz\`** — center screen on cursor · \`zs / z=\` spell · \`gd\` — go to definition (LSP).
 
 The **g** and **z** prefixes are goldmines — explore them with which-key.`,
+      },
+      {
+        id: 'w5l9', type: 'keydrill', title: 'Muscle memory: workspaces & quick jumps',
+        body: `Workspaces isolate window layouts per project. Drill the everyday shortcuts.`,
+        drills: [
+          { prompt: 'Create a new workspace', keys: ['SPC', 'Tab', 'n'] },
+          { prompt: 'Delete the current workspace', keys: ['SPC', 'Tab', 'd'] },
+          { prompt: 'Switch buffer (quick)', keys: ['SPC', ','] },
+          { prompt: 'Find file (quick)', keys: ['SPC', '.'] },
+          { prompt: 'Toggle project sidebar (treemacs)', keys: ['SPC', 'o', 'p'] },
+        ],
+      },
+      {
+        id: 'w5l10', type: 'info', title: 'Dired & treemacs: files without leaving',
+        body: `Two ways to manage files without a separate file manager:
+
+**Treemacs (\`SPC o p\`)** — a persistent project tree on the side. Click or
+keyboard-navigate; open files, create folders, rename. Great for orientation.
+
+**Dired** — Emacs's built-in directory editor. Open a folder as a buffer:
+\`SPC f d\` (or visit a directory with find-file). Then:
+- \`RET\` open · \`+\` create directory · \`C\` copy · \`R\` rename · \`D\` delete
+- Mark files with \`m\`, operate on the marked set
+
+Dired is a *buffer*, so every Vim motion and Doom binding still works. Power users
+live in dired for bulk renames and project cleanup.`,
       },
       {
         id: 'w5l7', type: 'quiz', title: 'Doom initiation exam',
@@ -160,12 +198,12 @@ You reprogram Emacs while flying it.`,
         body: `Time to WRITE Lisp, not just read it. Type real Elisp into the console below.`,
         code: {
           prompt: 'Set the variable `doom-theme` to the symbol `doom-gruvbox` (remember: symbols are quoted).',
-          placeholder: "(setq ...)",
+          placeholder: '(setq ...)',
           checks: [
-            { re: "^\\(setq\\b", hint: 'Start with (setq — the assignment special form.' },
-            { re: "doom-theme", hint: 'The variable is doom-theme.' },
+            { re: '^\\(setq\\b', hint: 'Start with (setq — the assignment special form.' },
+            { re: 'doom-theme', hint: 'The variable is doom-theme.' },
             { re: "'doom-gruvbox", hint: "Quote the symbol: 'doom-gruvbox — without the quote, Lisp would evaluate it as a variable." },
-            { re: "\\)\\s*$", hint: 'Close your parens!' },
+            { re: '\\)\\s*$', hint: 'Close your parens!' },
           ],
           solution: "(setq doom-theme 'doom-gruvbox)",
         },
@@ -204,12 +242,42 @@ restore cursor, \`(current-buffer)\`, \`(goto-char (point-min))\`.`,
           prompt: 'Define a function `my/hello` that takes no arguments, is interactive, and calls (message "hi").',
           placeholder: '(defun my/hello ()\n  ...)',
           checks: [
-            { re: "^\\(defun\\s+my/hello\\s*\\(\\)", hint: 'Start: (defun my/hello () — name, then an empty argument list.' },
-            { re: "\\(interactive\\)", hint: 'Add (interactive) — without it, M-x cannot see your function.' },
-            { re: "\\(message\\s+\"hi\"\\)", hint: 'The body: (message "hi").' },
-            { re: "\\)\\s*$", hint: 'Balance those parens at the end.' },
+            { re: '^\\(defun\\s+my/hello\\s*\\(\\)', hint: 'Start: (defun my/hello () — name, then an empty argument list.' },
+            { re: '\\(interactive\\)', hint: 'Add (interactive) — without it, M-x cannot see your function.' },
+            { re: '\\(message\\s+"hi"\\)', hint: 'The body: (message "hi").' },
+            { re: '\\)\\s*$', hint: 'Balance those parens at the end.' },
           ],
           solution: '(defun my/hello ()\n  (interactive)\n  (message "hi"))',
+        },
+      },
+      {
+        id: 'w6cd3', type: 'codedrill', title: 'Hook it up',
+        body: `Hooks are how you say "whenever X happens, do Y". Write a real one.`,
+        code: {
+          prompt: "Add `display-line-numbers-mode` to `prog-mode-hook` (line numbers in every programming buffer). Remember: the hook symbol is quoted, the function gets a sharp quote.",
+          placeholder: '(add-hook ...)',
+          checks: [
+            { re: '^\\(add-hook\\b', hint: 'Start with (add-hook — the function that registers hook callbacks.' },
+            { re: "'prog-mode-hook", hint: "First argument: the hook symbol, quoted — 'prog-mode-hook." },
+            { re: "#'display-line-numbers-mode", hint: "Second argument: the function reference with a sharp quote — #'display-line-numbers-mode." },
+            { re: '\\)\\s*$', hint: 'Close the paren.' },
+          ],
+          solution: "(add-hook 'prog-mode-hook #'display-line-numbers-mode)",
+        },
+      },
+      {
+        id: 'w6cd4', type: 'codedrill', title: 'Local scope: let',
+        body: `\`let\` binds variables only inside its body. Write a classic double.`,
+        code: {
+          prompt: 'Write a let form that binds x to 21 and returns (* x 2).',
+          placeholder: '(let ...)',
+          checks: [
+            { re: '^\\(let\\b', hint: 'Start with (let' },
+            { re: '\\(\\(\\s*x\\s+21\\s*\\)\\)', hint: 'Binding list: ((x 21)) — double parens!' },
+            { re: '\\(\\*\\s+x\\s+2\\)', hint: 'Body: (* x 2)' },
+            { re: '\\)\\s*$', hint: 'Close the outer paren.' },
+          ],
+          solution: '(let ((x 21)) (* x 2))',
         },
       },
       {
@@ -220,6 +288,121 @@ restore cursor, \`(current-buffer)\`, \`(goto-char (point-min))\`.`,
           { q: 'How many major modes can one buffer have?', choices: ['Unlimited', 'Exactly one', 'Two', 'Zero or one'], answer: 1, explain: 'One major mode; unlimited minor modes.' },
           { q: '(save-excursion ...) is for:', choices: ['Saving the file', 'Running code then restoring cursor/buffer position', 'Backup files', 'Undo'], answer: 1, explain: 'Lets your function wander the buffer without disturbing the user\'s cursor.' },
           { q: 'Evaluate the Lisp expression before the cursor:', choices: ['C-x C-e', 'M-x run', 'SPC e e', ':eval'], answer: 0, explain: 'eval-last-sexp — the tightest feedback loop in programming. (Doom: also `gr` in some modes, or SPC m e e in elisp buffers.)' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'w65', name: 'World 6.5 · Deeper Lisp', icon: 'sparkles',
+    tagline: 'Lists, buffers, and control flow — write real Emacs code, not just config snippets.',
+    lessons: [
+      {
+        id: 'w65l1', type: 'info', title: 'Lists: the bones of Lisp',
+        body: `Almost everything in Elisp is a **list** (or an atom). The classic operations:
+
+\`\`\`elisp
+'(a b c)           ; a quoted list (data, not a call)
+(car '(a b c))     ; → a   (first element)
+(cdr '(a b c))     ; → (b c)  (rest of the list)
+(cons 'x '(a b))   ; → (x a b)  (prepend)
+(list 1 2 3)       ; → (1 2 3)  (build a list)
+(length '(a b c))  ; → 3
+(nth 1 '(a b c))   ; → b  (0-indexed)
+\`\`\`
+
+\`car\`/\`cdr\` names are historical (old machine registers). You will see them forever.
+\`cons\` builds pairs; lists are chains of cons cells ending in \`nil\`.
+
+**When to quote:** \`(list a b)\` evaluates \`a\` and \`b\`. \`(a b)\` tries to *call* function
+\`a\`. \`' (a b)\` is literal data. This distinction is half of Lisp fluency.`,
+      },
+      {
+        id: 'w65l2', type: 'quiz', title: 'List surgery exam',
+        quiz: [
+          { q: "(car '(doom emacs)) →", choices: ['doom', '(doom emacs)', 'emacs', 'error'], answer: 0, explain: 'car = first element.' },
+          { q: "(cdr '(1 2 3)) →", choices: ['1', '(2 3)', '(1 2 3)', 'nil'], answer: 1, explain: 'cdr = the rest after the first.' },
+          { q: "(cons 0 '(1 2)) →", choices: ['(0 1 2)', '(1 2 0)', '01 2', 'error'], answer: 0, explain: 'cons prepends to a list.' },
+          { q: "Difference between (list a b) and '(a b)?", choices: ['None', '(list a b) evaluates a and b; quote is literal symbols', 'list is slower', 'quote is deprecated'], answer: 1, explain: 'Quote freezes evaluation. list builds from evaluated args.' },
+          { q: '(length nil) →', choices: ['error', '0', '1', 'nil'], answer: 1, explain: 'nil is the empty list. Length 0.' },
+        ],
+      },
+      {
+        id: 'w65cd1', type: 'codedrill', title: 'Loop with dolist',
+        body: `Iterate a list without indexes. \`dolist\` is the everyday loop.`,
+        code: {
+          prompt: "Write (dolist (x '(1 2 3)) (message \"%d\" x)) — print each number.",
+          placeholder: '(dolist ...)',
+          checks: [
+            { re: '^\\(dolist\\b', hint: 'Start with (dolist' },
+            { re: "\\(\\s*x\\s+'\\(1\\s+2\\s+3\\)\\s*\\)", hint: "Binding: (x '(1 2 3))" },
+            { re: '\\(message\\s+"%d"\\s+x\\)', hint: 'Body: (message "%d" x)' },
+            { re: '\\)\\s*$', hint: 'Close the outer paren.' },
+          ],
+          solution: "(dolist (x '(1 2 3)) (message \"%d\" x))",
+        },
+      },
+      {
+        id: 'w65l3', type: 'info', title: 'Talking to the buffer',
+        body: `Your functions edit text by moving **point** (the cursor) and inserting:
+
+\`\`\`elisp
+(point)                    ; current position (integer)
+(point-min) / (point-max)  ; start / end of accessible buffer
+(goto-char (point-min))    ; jump to start
+(insert "hello")           ; type text at point
+(buffer-string)            ; whole buffer as a string
+(save-excursion            ; do stuff, restore point after
+  (goto-char (point-max))
+  (insert "\\n;; end"))
+\`\`\`
+
+**Rule:** if a command wanders the buffer, wrap it in \`save-excursion\` so the
+user's cursor doesn't teleport. Interactive commands that *should* move point
+(like search) skip that wrapper on purpose.`,
+      },
+      {
+        id: 'w65cd2', type: 'codedrill', title: "Insert today's date",
+        body: `A real utility command: interactive, inserts an ISO date at point.`,
+        code: {
+          prompt: 'Define interactive my/insert-date that inserts (format-time-string "%Y-%m-%d").',
+          placeholder: '(defun my/insert-date ()\n  ...)',
+          checks: [
+            { re: '^\\(defun\\s+my/insert-date\\s*\\(\\)', hint: '(defun my/insert-date ()' },
+            { re: '\\(interactive\\)', hint: 'Must be (interactive)' },
+            { re: '\\(insert\\s+\\(format-time-string\\s+"%Y-%m-%d"\\)\\)', hint: '(insert (format-time-string "%Y-%m-%d"))' },
+            { re: '\\)\\s*$', hint: 'Close parens.' },
+          ],
+          solution: '(defun my/insert-date ()\n  (interactive)\n  (insert (format-time-string "%Y-%m-%d")))',
+        },
+      },
+      {
+        id: 'w65l4', type: 'info', title: 'cond, when, unless',
+        body: `Beyond \`if\`:
+
+\`\`\`elisp
+(when condition
+  body...)          ; if true, run body (no else)
+
+(unless condition
+  body...)          ; if false, run body
+
+(cond
+  ((eq x 'a) "aye")
+  ((eq x 'b) "bee")
+  (t "default"))    ; t is the catch-all
+\`\`\`
+
+\`cond\` is multi-branch \`if\`. Each clause is \`(test body...)\`; first true test wins.
+\`when\`/\`unless\` keep single-branch logic readable — prefer them over \`(if x (progn …))\`.`,
+      },
+      {
+        id: 'w65l5', type: 'quiz', title: 'Deeper Lisp final',
+        quiz: [
+          { q: "(cons 'a nil) is the same as:", choices: ["'(a)", 'nil', "'(a nil)", 'a'], answer: 0, explain: 'A one-element list is a cons with cdr nil.' },
+          { q: 'save-excursion is for:', choices: ['Saving the file', 'Running code then restoring point', 'Undo', 'Autosave'], answer: 1, explain: 'Wander freely, put the cursor back.' },
+          { q: 'cond clauses are tried:', choices: ['All in parallel', 'Top to bottom until one test is non-nil', 'Bottom to top', 'Randomly'], answer: 1, explain: 'First matching clause wins; t is the default.' },
+          { q: 'unless is equivalent to:', choices: ['when', 'when not', 'if', 'cond'], answer: 1, explain: '(unless c body) = (when (not c) body).' },
+          { q: 'insert places text:', choices: ['At end of buffer always', 'At point (cursor)', 'In the kill ring', 'In a new buffer'], answer: 1, explain: 'insert types at the current point.' },
         ],
       },
     ],
@@ -297,9 +480,9 @@ part of your editor forever.** You are no longer a user; you're a co-author.`,
           prompt: 'Declare the package `rainbow-mode` for installation (Doom style).',
           placeholder: '(package! ...)',
           checks: [
-            { re: "^\\(package!\\s+", hint: "Doom's macro is package! (with the bang)." },
-            { re: "rainbow-mode", hint: 'The package name is rainbow-mode (no quote needed here).' },
-            { re: "\\)\\s*$", hint: 'Close the paren.' },
+            { re: '^\\(package!\\s+', hint: "Doom's macro is package! (with the bang)." },
+            { re: 'rainbow-mode', hint: 'The package name is rainbow-mode (no quote needed here).' },
+            { re: '\\)\\s*$', hint: 'Close the paren.' },
           ],
           solution: '(package! rainbow-mode)',
         },
@@ -311,14 +494,49 @@ part of your editor forever.** You are no longer a user; you're a co-author.`,
           prompt: 'Write a map! form: leader key "o d", description "Insert date", function #\'my/insert-date.',
           placeholder: '(map! :leader\n      ...)',
           checks: [
-            { re: "^\\(map!\\s", hint: 'Use the (map! …) macro.' },
-            { re: ":leader", hint: 'Add :leader so the binding hangs off SPC.' },
+            { re: '^\\(map!\\s', hint: 'Use the (map! …) macro.' },
+            { re: ':leader', hint: 'Add :leader so the binding hangs off SPC.' },
             { re: ':desc\\s+"Insert date"', hint: 'Add :desc "Insert date" — that text shows in the which-key popup.' },
             { re: '"o d"', hint: 'The key sequence is the string "o d".' },
             { re: "#'my/insert-date", hint: "Reference the function with a sharp quote: #'my/insert-date." },
           ],
-          solution: '(map! :leader\n      :desc "Insert date" "o d" #\'my/insert-date)',
+          solution: "(map! :leader\n      :desc \"Insert date\" \"o d\" #'my/insert-date)",
         },
+      },
+      {
+        id: 'w7cd3', type: 'codedrill', title: 'Lazy and safe: after!',
+        body: `Never configure a package before it loads. Wrap settings in \`after!\`.`,
+        code: {
+          prompt: "Wrap (setq org-agenda-files '(\"~/org\")) inside (after! org …).",
+          placeholder: '(after! org\n  ...)',
+          checks: [
+            { re: '^\\(after!\\s+org\\b', hint: 'Start: (after! org' },
+            { re: '\\(setq\\s+org-agenda-files', hint: 'Inside: (setq org-agenda-files …)' },
+            { re: "'\\(\"~/org\"\\)", hint: "The value is a quoted list: '(\"~/org\")" },
+            { re: '\\)\\s*$', hint: 'Balance the parens.' },
+          ],
+          solution: "(after! org\n  (setq org-agenda-files '(\"~/org\")))",
+        },
+      },
+      {
+        id: 'w7l5', type: 'info', title: 'Anatomy of a Doom module',
+        body: `Doom modules live under categories in \`init.el\`:
+
+\`\`\`elisp
+:ui       ; interface (doom-dashboard, treemacs, …)
+:editor   ; evil, fold, snippets, …
+:emacs    ; dired, undo, vc, …
+:tools    ; magit, lsp, debugger, …
+:lang     ; language packs (python, rust, org, …)
+:config   ; default + literate
+\`\`\`
+
+Flags customize a module: \`(python +lsp +pyright)\` enables LSP with pyright.
+After toggling modules or packages: **\`doom sync\`**.
+
+Browse what a module provides: \`SPC h d m\` (or read the module's README under
+\`~/.config/emacs/modules/\`). You almost never edit Doom's source — only your
+three files in \`~/.config/doom/\`.`,
       },
       {
         id: 'w7l3', type: 'quiz', title: 'Config wizardry exam',
@@ -326,19 +544,18 @@ part of your editor forever.** You are no longer a user; you're a co-author.`,
           { q: 'Where do you enable/disable Doom modules?', choices: ['config.el', 'init.el', 'packages.el', 'modules.el'], answer: 1, explain: 'init.el holds the doom! block listing active modules.' },
           { q: 'Install package `rainbow-mode`:', choices: ['(require rainbow-mode) in config.el', '(package! rainbow-mode) in packages.el + doom sync', 'M-x install rainbow', 'pip install rainbow-mode'], answer: 1, explain: 'Declare in packages.el, then doom sync fetches and builds it.' },
           { q: 'Why wrap config in (after! org ...)?', choices: ['Style points', 'Runs config only once org loads — respects lazy loading', 'Makes it async', 'Required syntax'], answer: 1, explain: 'Doom lazy-loads packages. Configuring before load either fails or forces early loading.' },
-          { q: 'Bind SPC o c to function my/thing for all modes:', choices: ['(map! :leader "o c" #\'my/thing)', '(global-set-key "SPC o c" my/thing)', '(bind SPC-o-c my/thing)', '(evil-bind leader o c)'], answer: 0, explain: 'map! with :leader targets the SPC prefix. :desc adds which-key text.' },
+          { q: 'Bind SPC o c to function my/thing for all modes:', choices: ["(map! :leader \"o c\" #'my/thing)", '(global-set-key …SPC…)', '(bind SPC-o-c my/thing)', '(evil-bind leader o c)'], answer: 0, explain: 'map! with :leader targets the SPC prefix. :desc adds which-key text.' },
           { q: 'Doom feels broken after editing packages.el. First command to run?', choices: ['rm -rf ~/.emacs.d', 'doom sync (then doom doctor)', 'doom upgrade', 'reinstall Emacs'], answer: 1, explain: 'sync rebuilds the package state; doctor diagnoses environment issues.' },
           { q: 'The TRUE mark of an Emacs master is:', choices: ['Memorizing every keybinding', 'Reading which-key menus, help buffers, and writing small Lisp fixes as needs arise', 'Using only the mouse', 'Never customizing anything'], answer: 1, explain: 'Emacs mastery = fluency in self-discovery + the confidence to reshape the editor. You have both now.' },
         ],
       },
       {
-        id: 'w7l4', type: 'info', title: '🎓 Your quest continues (real-world map)',
+        id: 'w7l4', type: 'info', title: 'Your quest continues (real-world map)',
         body: `You've built the full mental model. Here's the road to true mastery:
 
 **Daily practice**
-- Install Doom for real and live in it: \`gg\` magit, \`SPC p f\`, org-mode notes.
-- Play [vimgolf.com](https://www.vimgolf.com) — sign in with GitHub, start with
-  easy holes ("Simple text editing with Vim"), study top solutions after solving.
+- Install Doom for real and live in it: Magit, \`SPC p f\`, org-mode notes.
+- Play [vimgolf.com](https://www.vimgolf.com) — study top solutions after solving.
 - Run Vim's built-in \`vimtutor\` once; in Doom, \`SPC h b\` explores bindings.
 
 **Reading list**
@@ -353,7 +570,91 @@ part of your editor forever.** You are no longer a user; you're a co-author.`,
 3. Contribute a solution in the top 20% of any vimgolf hole.
 4. Publish your literate config. Become the person others learn from.
 
-*The editor of a lifetime deserves a lifetime of learning. Welcome to it.* 😈`,
+*The editor of a lifetime deserves a lifetime of learning. Welcome to it.*`,
+      },
+    ],
+  },
+  {
+    id: 'w75', name: 'World 7.5 · Doom Workflows', icon: 'map',
+    tagline: 'LSP navigation, workspaces, diagnostics — the daily coding loop at full speed.',
+    lessons: [
+      {
+        id: 'w75l1', type: 'info', title: 'LSP: your code intelligence layer',
+        body: `Enable \`:tools lsp\` and language flags like \`(python +lsp)\`. Then in code buffers:
+
+- \`gd\` — **g**o to **d**efinition
+- \`gD\` — go to type/declaration (when supported)
+- \`K\` — hover docs at point (also \`SPC c k\`)
+- \`SPC c r\` — **r**ename symbol (project-wide, careful!)
+- \`SPC c a\` — code **a**ctions (quick-fixes, refactors)
+- \`SPC c j\` / \`SPC c J\` — jump to symbol in file / workspace
+- \`SPC c x\` — list diagnostics (errors/warnings)
+
+LSP needs a language server installed (pyright, rust-analyzer, gopls…).
+\`doom doctor\` and the modeline tell you when the server is alive.`,
+      },
+      {
+        id: 'w75l2', type: 'keydrill', title: 'Muscle memory: code navigation',
+        body: `Drill the LSP-era bindings. These become muscle memory after one real project.`,
+        drills: [
+          { prompt: 'Go to definition', keys: ['g', 'd'] },
+          { prompt: 'Hover documentation at point', keys: ['K'] },
+          { prompt: 'Rename symbol', keys: ['SPC', 'c', 'r'] },
+          { prompt: 'Code actions / quick-fix', keys: ['SPC', 'c', 'a'] },
+          { prompt: 'List diagnostics', keys: ['SPC', 'c', 'x'] },
+        ],
+      },
+      {
+        id: 'w75l3', type: 'info', title: 'Workspaces: one layout per project',
+        body: `Doom workspaces (\`persp-mode\`) keep window layouts and buffer sets isolated:
+
+- \`SPC TAB n\` — new workspace
+- \`SPC TAB .\` — switch workspace (or \`SPC TAB TAB\`)
+- \`SPC TAB ]\` / \`[\` — next / previous workspace
+- \`SPC TAB d\` — delete workspace
+- \`SPC TAB r\` — rename
+
+Typical flow: one workspace per project, maybe one for notes/org.
+Switching projects with \`SPC p p\` can auto-create a workspace when configured.
+
+Your brain stops thrashing buffers — each project feels like its own desktop.`,
+      },
+      {
+        id: 'w75l4', type: 'keydrill', title: 'Muscle memory: workspaces & project UI',
+        body: `Combine workspace keys with project tooling.`,
+        drills: [
+          { prompt: 'New workspace', keys: ['SPC', 'Tab', 'n'] },
+          { prompt: 'Next workspace', keys: ['SPC', 'Tab', ']'] },
+          { prompt: 'Toggle treemacs project sidebar', keys: ['SPC', 'o', 'p'] },
+          { prompt: 'Switch project', keys: ['SPC', 'p', 'p'] },
+          { prompt: 'Find file in project', keys: ['SPC', 'p', 'f'] },
+        ],
+      },
+      {
+        id: 'w75l5', type: 'info', title: 'Diagnostics & formatting',
+        body: `**Flycheck / flymake** surface errors as you type. In Doom:
+
+- Modeline shows error counts
+- \`SPC c x\` — diagnostics list
+- \`]e\` / \`[e\` — next / previous error (evil)
+
+**Formatting:** enable \`format\` module flags on languages. Then:
+
+- \`SPC c f\` — format buffer/region (when configured)
+- Format-on-save is a common \`config.el\` tweak per language
+
+**The loop:** edit → glance diagnostics → \`gd\` to understand → \`SPC c a\` to fix →
+\`SPC c f\` to prettify → Magit commit. Stay in the editor the whole time.`,
+      },
+      {
+        id: 'w75l6', type: 'quiz', title: 'Workflow exam',
+        quiz: [
+          { q: 'gd in a code buffer (with LSP) usually means:', choices: ['Go down', 'Go to definition', 'Git diff', 'Global delete'], answer: 1, explain: 'gd is the evil+LSP go-to-definition binding.' },
+          { q: 'SPC c r is for:', choices: ['Restart Emacs', 'Rename symbol via LSP', 'Revert buffer', 'Run tests'], answer: 1, explain: 'c = code prefix; r = rename.' },
+          { q: 'Workspaces help by:', choices: ['Faster typing', 'Isolating window layouts and buffers per project', 'Compiling faster', 'Replacing git'], answer: 1, explain: 'Each workspace is a separate desktop for a project or task.' },
+          { q: 'SPC c x opens:', choices: ['Hex editor', 'Diagnostics list', 'Clipboard', 'Config'], answer: 1, explain: 'Code → diagnostics.' },
+          { q: 'Best first step when LSP seems dead?', choices: ['Reinstall Windows', 'Check language server install + doom doctor / modeline', 'Disable evil', 'Delete config.el'], answer: 1, explain: 'Servers must be installed; doctor and modeline report status.' },
+        ],
       },
     ],
   },

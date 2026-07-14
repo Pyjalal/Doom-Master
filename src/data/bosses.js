@@ -61,6 +61,30 @@ export const BOSSES = {
       ],
     },
   },
+  w46: {
+    id: 'w46boss', type: 'boss', title: 'BOSS · The Regex Hydra',
+    boss: {
+      time: 100,
+      intro: 'Three heads: search, substitute, purge. Cut them all in one hundred seconds or the Hydra regrows.',
+      stages: [
+        { kind: 'drill', prompt: 'HEAD 1 — Land on `hydra` with / search', start: 'noise noise hydra noise', cursorGoal: { row: 0, col: 12 } },
+        { kind: 'drill', prompt: 'HEAD 2 — Rename all foo→bar with :%s', start: 'foo a\nfoo b\nfoo c', target: 'bar a\nbar b\nbar c' },
+        { kind: 'drill', prompt: 'HEAD 3 — Purge lines containing BAD', start: 'ok\nBAD one\nok\nBAD two\nok', target: 'ok\nok\nok' },
+      ],
+    },
+  },
+  w47: {
+    id: 'w47boss', type: 'boss', title: 'BOSS · The Scratch Handicapper',
+    boss: {
+      time: 120,
+      intro: 'The Handicapper taxes every wasted stroke. Three holes. Two minutes. Play under par or walk home.',
+      stages: [
+        { kind: 'drill', prompt: 'HOLE X — Bullet four lines (macro or :%norm)', start: 'w\nx\ny\nz', target: '- w\n- x\n- y\n- z' },
+        { kind: 'drill', prompt: 'HOLE Y — Rename all a→z file-wide', start: 'a=1\nprint(a)\na', target: 'z=1\nprint(z)\nz' },
+        { kind: 'drill', prompt: 'HOLE Z — Reverse five lines', start: '5\n4\n3\n2\n1', target: '1\n2\n3\n4\n5' },
+      ],
+    },
+  },
   w5: {
     id: 'w5boss', type: 'boss', title: 'BOSS · The Which-Key Warden',
     boss: {
@@ -89,6 +113,20 @@ export const BOSSES = {
       ],
     },
   },
+  w65: {
+    id: 'w65boss', type: 'boss', title: 'BOSS · The Cons Cell Kraken',
+    boss: {
+      time: 75,
+      intro: 'The Kraken coils around list cells and buffer points. Answer five riddles. Wrong answers cost 8 seconds.',
+      stages: [
+        { kind: 'quiz', q: "(car '(a b c)) →", choices: ['(a b c)', 'a', 'b', 'nil'], answer: 1 },
+        { kind: 'quiz', q: "(cdr '(1 2 3)) →", choices: ['1', '(2 3)', '3', 'nil'], answer: 1 },
+        { kind: 'quiz', q: 'save-excursion restores…', choices: ['The file', 'Point (and often mark)', 'The theme', 'Packages'], answer: 1 },
+        { kind: 'quiz', q: 'cond tries clauses…', choices: ['In parallel', 'Top to bottom until one matches', 'Randomly', 'Only the last'], answer: 1 },
+        { kind: 'quiz', q: '(cons 1 nil) equals…', choices: ["'(1)", '1', 'nil', "'(1 nil)"], answer: 0 },
+      ],
+    },
+  },
   w7: {
     id: 'w7boss', type: 'boss', title: 'BOSS · The Config Archon',
     boss: {
@@ -99,6 +137,20 @@ export const BOSSES = {
         { kind: 'quiz', q: 'Why (after! org …)?', choices: ['Style', 'Respect lazy loading — run config when org loads', 'Async execution', 'Required by lexical binding'], answer: 1 },
         { kind: 'quiz', q: 'Bind SPC o w globally:', choices: ["(map! :leader \"o w\" #'fn)", '(global-set-key …SPC…)', '(leader-bind o w)', '(evil-map SPC-o-w)'], answer: 0 },
         { kind: 'quiz', q: 'Doom broken after editing packages.el — first command?', choices: ['doom sync', 'rm -rf ~/.emacs.d', 'doom upgrade', 'apt reinstall emacs'], answer: 0 },
+      ],
+    },
+  },
+  w75: {
+    id: 'w75boss', type: 'boss', title: 'BOSS · The Pipeline Warden',
+    boss: {
+      time: 60,
+      intro: 'The Warden runs a live coding pipeline. Keys and knowledge under sixty seconds.',
+      stages: [
+        { kind: 'keys', prompt: 'Go to definition', keys: ['g', 'd'] },
+        { kind: 'keys', prompt: 'Rename symbol', keys: ['SPC', 'c', 'r'] },
+        { kind: 'quiz', q: 'SPC c x opens…', choices: ['Hex view', 'Diagnostics list', 'Config', 'Clipboard'], answer: 1 },
+        { kind: 'keys', prompt: 'New workspace', keys: ['SPC', 'Tab', 'n'] },
+        { kind: 'quiz', q: 'Workspaces isolate…', choices: ['CPU cores', 'Window layouts and buffers per project', 'Git remotes', 'Themes'], answer: 1 },
       ],
     },
   },

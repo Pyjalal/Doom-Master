@@ -89,6 +89,54 @@ Tell Emacs which files feed the agenda:
       ],
     },
     {
+      id: 'w8l8', type: 'info', title: 'Links & tables: org\'s secret weapons',
+      body: `**Links** — org links to anything: files, headings, URLs, even emails:
+
+\`\`\`org
+[[https://doomemacs.org][Doom homepage]]     ← web link with description
+[[file:notes.org::*Research][my research]]   ← jump to a heading in another file
+\`\`\`
+
+- \`SPC m l l\` — insert a link · \`RET\` on a link — follow it
+- Store a link to where you are with \`SPC n l\`, paste it elsewhere later.
+Your notes become a personal wiki — plain text, git-versioned.
+
+**Tables** — type \`|\` and org builds spreadsheets as you type:
+
+\`\`\`org
+| Item   | Qty | Price |
+|--------+-----+-------|
+| apples |   4 |  2.50 |
+| bread  |   1 |  3.20 |
+\`\`\`
+
+- \`TAB\` in a table — next cell, *realigning the whole table automatically*
+- Type \`|-\` then \`TAB\` — instant separator line
+- Formulas work too: \`#+TBLFM: $4=$2*$3\` turns a column into computed values.
+
+People have run companies on org tables. Plain text, remember.`,
+    },
+    {
+      id: 'w8l9', type: 'keydrill', title: 'Muscle memory: links & notes',
+      body: `Drill link and capture-adjacent bindings used in daily org workflows.`,
+      drills: [
+        { prompt: 'Insert a link', keys: ['SPC', 'm', 'l', 'l'] },
+        { prompt: 'Store a link to current location', keys: ['SPC', 'n', 'l'] },
+        { prompt: 'Open the org agenda', keys: ['SPC', 'o', 'A'] },
+        { prompt: 'Capture a quick note', keys: ['SPC', 'X'] },
+        { prompt: 'Cycle TODO state', keys: ['SPC', 'm', 't'] },
+      ],
+    },
+    {
+      id: 'w8l10', type: 'quiz', title: 'Links & tables check',
+      quiz: [
+        { q: 'An org web link with description looks like:', choices: ['[url](text)', '[[url][text]]', '<url|text>', 'url:text'], answer: 1, explain: 'Double brackets: [[target][description]].' },
+        { q: 'TAB inside an org table:', choices: ['Exits the table', 'Moves to next cell and realigns columns', 'Deletes the row', 'Runs a formula only'], answer: 1, explain: 'TAB navigates and auto-aligns.' },
+        { q: 'SPC m l l is for:', choices: ['List all files', 'Insert a link', 'Load Lisp', 'Lock the buffer'], answer: 1, explain: 'Local leader → link → insert link.' },
+        { q: 'Org tables are stored as:', choices: ['Binary blobs', 'Plain text with | columns', 'SQLite', 'JSON'], answer: 1, explain: 'Plain text — grep, diff, and future-proof.' },
+      ],
+    },
+    {
       id: 'w8l6', type: 'info', title: 'Org-babel: your config as a document',
       body: `Org can **execute code blocks** — press \`C-c C-c\` inside one:
 
